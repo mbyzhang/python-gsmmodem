@@ -1078,9 +1078,10 @@ class GsmModem(SerialComms):
             if not unreadOnly:
                 states.insert(0, Sms.STATUS_RECEIVED_READ)
             for msgStatus in states:
-                messages = self.listStoredSms(status=msgStatus, delete=True)
+                messages = self.listStoredSms(status=msgStatus, delete=False)
                 for sms in messages:
                     self.smsReceivedCallback(sms)
+                    self.deleteStoredSms(sms.index)
         else:
             raise ValueError('GsmModem.smsReceivedCallback not set')
 
